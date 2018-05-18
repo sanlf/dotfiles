@@ -28,4 +28,9 @@ for file in $files; do
     mv ~/.$file ~/dotfiles_old/
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
+
+# Initialize vim plugins and update them
+git submodule init
+git submodule update
 done
+
