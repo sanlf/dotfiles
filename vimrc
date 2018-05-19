@@ -90,6 +90,9 @@ cnoremap kj <ESC>
 "Autotabularize
 inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
+"Strip whitespace on save
+let g:strip_whitespace_on_save=1
+
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
   if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
