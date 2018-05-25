@@ -34,3 +34,9 @@
 [submodule "vim/bundle/vim-delete-hidden-buffers"]
 	path = vim/bundle/vim-delete-hidden-buffers
 	url = https://github.com/arithran/vim-delete-hidden-buffers.git
+[submodule "emmet-vim"]
+	path = emmet-vim
+	url = https://github.com/mattn/emmet-vim.git
+[submodule "vim-blade"]
+	path = vim-blade
+	url = https://github.com/jwalton512/vim-blade.git
