@@ -1,10 +1,98 @@
 set nocompatible    " Disables vi compatibility
 
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+"loads python3 first instead of python2 for vim to use python3
+if has('python3')
+endif
+
+"VUNDLE PLUGINS SECTION
+"
+"
+"
+call vundle#rc()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Install YouCompleteMe, autocompletition of code
+Plugin 'Valloric/YouCompleteMe'
+
+" Ctrlp, fuzzy file finder
+Plugin 'ctrlpvim/ctrlp.vim'
+
+" gitgutter, shows add, deleted and changed lines in git project
+Plugin 'airblade/vim-gitgutter'
+
+" Class outline viewer for vim. Easy way to browse tags
+Plugin 'majutsushi/tagbar'
+
+"Ack, search tool for substrings of code
+Plugin 'mileszs/ack.vim'
+
+"Nerdcommenter, commenter tool
+Plugin 'scrooloose/nerdcommenter'
+
+"Delete hidden buffers
+Plugin 'arithran/vim-delete-hidden-buffers'
+
+"Repeats last action, even from plugins
+Plugin 'tpope/vim-repeat'
+
+"auto-pairs. For example ( inputs ()
+Plugin 'jiangmiao/auto-pairs'
+
+"Nerdtree. Interactive project tree management
+Plugin 'scrooloose/nerdtree'
+
+"Vim airline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+Plugin 'tpope/vim-surround'
+
+"Goes to normal mode with jk or kj
+Plugin 'zhou13/vim-easyescape'
+
+"Syntactic checker
+Plugin 'vim-syntastic/syntastic'
+
+"Plugin to see and remove trailing whitespaces
+Plugin 'ntpeters/vim-better-whitespace'
+
+"git wrapper
+Plugin 'tpope/vim-fugitive'
+
+"emmet, html helper tool
+Plugin 'mattn/emmet-vim'
+
+Plugin 'godlygeek/tabular'
+
+"vim blade. Syntax for blade
+Plugin 'jwalton512/vim-blade'
+
+call vundle#end()            " required
+
+let g:ycm_python_binary_path = '/usr/bin/python3' "for YouCompleteMe
+let g:ycm_python_binary_path = 'python' "for YouCompleteMe
+
+"
+"
+"
+"END VUNDLE PLUGINS SECTION
+
 "Loads plugins
 execute pathogen#infect()
 
 "Let plugins detect type of file and aplpy identation accordingly
 filetype plugin indent on
+
+let mapleader = "," " Sets the leader to be ,
 
 set number	        " Numbers lines
 
@@ -64,7 +152,7 @@ set hidden          "Shows hidden buffers"
 
 set nowrap          "Don't wrap lines"
 
-let mapleader = "," " Sets the leader to be ,
+set updatetime=100  "Updates things in 100ms. Specially useful for gitgutter"
 
 "Removes highlight with leader + space
 nnoremap <leader><space> :nohlsearch<CR>
@@ -80,6 +168,9 @@ map <C-l> <C-w>l
 
 "Toggle NERDTree with F2
 map <F2> :NERDTreeToggle<CR>
+
+"Toggle tagbar with F8
+nmap <F8> :TagbarToggle<CR>
 
 "Remap escape to jk or kj (must type it fast to take effect)
 let g:easyescape_chars = { "j": 1, "k": 1 }
