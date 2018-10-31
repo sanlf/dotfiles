@@ -17,11 +17,8 @@ call vundle#rc()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" Install YouCompleteMe, autocompletition of code
-Plugin 'Valloric/YouCompleteMe'
+"Deoplete, autocompletion
+Plugin 'shougo/deoplete.nvim'
 
 " Ctrlp, fuzzy file finder
 Plugin 'ctrlpvim/ctrlp.vim'
@@ -59,9 +56,6 @@ Plugin 'tpope/vim-surround'
 "Goes to normal mode with jk or kj
 Plugin 'zhou13/vim-easyescape'
 
-"Syntactic checker
-Plugin 'vim-syntastic/syntastic'
-
 "Plugin to see and remove trailing whitespaces
 Plugin 'ntpeters/vim-better-whitespace'
 
@@ -75,6 +69,9 @@ Plugin 'godlygeek/tabular'
 
 "vim blade. Syntax for blade
 Plugin 'jwalton512/vim-blade'
+
+"Dummy text generator
+Plugin 'vim-scripts/loremipsum'
 
 call vundle#end()            " required
 
