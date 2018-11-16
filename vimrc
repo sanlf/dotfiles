@@ -17,6 +17,9 @@ call vundle#rc()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
 "Deoplete, autocompletion
 Plugin 'shougo/deoplete.nvim'
 
