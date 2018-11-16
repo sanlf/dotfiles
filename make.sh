@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="vimrc vim"    # list of files/folders to symlink in homedir
+files="bashrc vimrc vim"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -36,3 +36,4 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 # Initialize vim plugins and update them
 git submodule init
 git submodule update
+
