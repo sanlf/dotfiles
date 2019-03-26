@@ -23,6 +23,15 @@ Plugin 'VundleVim/Vundle.vim'
 "Deoplete, autocompletion
 Plugin 'shougo/deoplete.nvim'
 
+"Neosnippets
+if !has('nvim')
+  Plugin 'roxma/nvim-yarp'
+  Plugin 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plugin 'Shougo/neosnippet.vim'
+Plugin 'Shougo/neosnippet-snippets'
+
 " Ctrlp, fuzzy file finder
 Plugin 'ctrlpvim/ctrlp.vim'
 
@@ -76,11 +85,15 @@ Plugin 'jwalton512/vim-blade'
 "Dummy text generator
 Plugin 'vim-scripts/loremipsum'
 
+"Latex plugin
+Plugin 'lervag/vimtex'
+
 call vundle#end()            " required
 
 let g:ycm_python_binary_path = '/usr/bin/python3' "for YouCompleteMe
 let g:ycm_python_binary_path = 'python' "for YouCompleteMe
 
+let g:deoplete#enable_at_startup = 1 " Use deoplete.
 "
 "
 "
@@ -93,6 +106,7 @@ execute pathogen#infect()
 filetype plugin indent on
 
 let mapleader = "," " Sets the leader to be ,
+let maplocalleader = "," " Sets the localleader to be ,
 
 set number	        " Numbers lines
 
@@ -194,4 +208,24 @@ function! s:align()
     call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
   endif
 endfunction
+
+" neosnippet Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
