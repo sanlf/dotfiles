@@ -1,0 +1,5 @@
+# This file exist so mpv/watch_later exist in tracking (but empty).
+# This may not be necessary, as it may be made automatically if it doesn't exist,
+# but I do this just in case
+*
+!.gitignore

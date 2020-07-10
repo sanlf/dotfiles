@@ -117,9 +117,16 @@ playdir()
     mpv --no-audio-display --no-video --playlist=<( find $PWD -maxdepth 1 -type f | shuf )
 }
 
+# picks 15 random images from the ~/Pictures/General/ directory and displays them in a list
 randimg()
 {
     images_location="$HOME/Pictures/General/"
     find "$images_location" -maxdepth 1 -type f | shuf | head -n 15 | \
         sed -e 's/^/"/g' -e 's/$/"/g' | xargs eog
+}
+
+# comines apt update and apt upgrade in a single command.
+updategrade()
+{
+    sudo apt update && sudo apt upgrade
 }
