@@ -15,6 +15,9 @@ HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+#enable globstar
+shopt -s globstar
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
@@ -43,25 +46,88 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
 	# We have color support; assume it's compliant with Ecma-48
 	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
 	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
+    echo "$color_prompt" > /dev/null 2>&1 # to remove synstasic warning
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
+#if [ "$color_prompt" = yes ]; then
+    #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+#else
+    #PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+#fi
 unset color_prompt force_color_prompt
+
+################################################################### PS0 PS1 PS2
+
+DIRECTORY="\w"
+DOUBLE_SPACE="  "
+NEWLINE="\n"
+NO_COLOUR="\e[00m"
+PRINTING_OFF="\["
+PRINTING_ON="\]"
+PROMPT_COLOUR="\e[0;33m"
+PS1_PROMPT="\$"
+PS2_PROMPT=">"
+RESTORE_CURSOR_POSITION="\e[u"
+SAVE_CURSOR_POSITION="\e[s"
+SINGLE_SPACE=" "
+TIMESTAMP="\A"
+TIMESTAMP_PLACEHOLDER="--:--"
+
+move_cursor_to_start_of_ps1() {
+    command_rows=$(history 1 | wc -l)
+    if [ "$command_rows" -gt 1 ]; then
+        let vertical_movement=$command_rows+1
+    else
+        command=$(history 1 | sed 's/^\s*[0-9]*\s*//')
+        command_length=${#command}
+        ps1_prompt_length=${#PS1_PROMPT}
+        let total_length=$command_length+$ps1_prompt_length
+        let lines=$total_length/${COLUMNS}+1
+        let vertical_movement=$lines+1
+    fi
+    tput cuu $vertical_movement
+}
+
+PS0_ELEMENTS=(
+    "$SAVE_CURSOR_POSITION" "\$(move_cursor_to_start_of_ps1)"
+    "$PROMPT_COLOUR" "$TIMESTAMP" "$NO_COLOUR" "$RESTORE_CURSOR_POSITION"
+)
+PS0=$(IFS=; echo "${PS0_ELEMENTS[*]}")
+echo "$PS0" > /dev/null 2>&1 # ro remove synstastic warning
+
+PS1_ELEMENTS=(
+    # Empty line after last command.
+    "$NEWLINE"
+    # First line of prompt.
+    "$PRINTING_OFF" "$PROMPT_COLOUR" "$PRINTING_ON"
+    "$TIMESTAMP_PLACEHOLDER" "$DOUBLE_SPACE" "$DIRECTORY" "$PRINTING_OFF"
+    "$NO_COLOUR" "$PRINTING_ON" "$NEWLINE"
+    # Second line of prompt.
+    "$PRINTING_OFF" "$PROMPT_COLOUR" "$PRINTING_ON" "$PS1_PROMPT"
+    "$SINGLE_SPACE" "$PRINTING_OFF" "$NO_COLOUR" "$PRINTING_ON"
+)
+PS1=$(IFS=; echo "${PS1_ELEMENTS[*]}")
+
+PS2_ELEMENTS=(
+    "$PRINTING_OFF" "$PROMPT_COLOUR" "$PRINTING_ON" "$PS2_PROMPT"
+    "$SINGLE_SPACE" "$PRINTING_OFF" "$NO_COLOUR" "$PRINTING_ON"
+)
+PS2=$(IFS=; echo "${PS2_ELEMENTS[*]}")
+
+shopt -s histverify
+
+################################################################### PS0 PS1 PS2
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -71,39 +137,6 @@ xterm*|rxvt*)
 *)
     ;;
 esac
-
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -123,20 +156,32 @@ export PATH="$PATH:/usr/local/cuda-9.0/bin"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda-9.0/lib64"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/extras/CUPTI/lib64"
 
-# added by Anaconda3 5.3.0 installer
-# >>> conda init >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$(CONDA_REPORT_ERRORS=false '/home/johnsmith/anaconda3/bin/conda' shell.bash hook 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    \eval "$__conda_setup"
-else
-    if [ -f "/home/johnsmith/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/johnsmith/anaconda3/etc/profile.d/conda.sh"
-        CONDA_CHANGEPS1=false conda activate base
-    else
-        \export PATH="/home/johnsmith/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda init <<<
+####################
+# Aliases          #
+####################
 
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+####################
+# Functions        #
+####################
+
+if [ -f ~/.bash_functions ]; then
+    . ~/.bash_functions
+fi
+
+source /etc/profile.d/undistract-me.sh
+
+####################
+#                  #
+####################
+
+export VISUAL=nvim
+export EDITOR="$VISUAL"

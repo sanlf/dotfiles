@@ -1,94 +1,150 @@
+" Link to organize vimrc:
+" https://tuckerchapman.com/2020/05/09/vimrc_organization/
 set nocompatible    " Disables vi compatibility
-
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
 
 "loads python3 first instead of python2 for vim to use python3
 if has('python3')
 endif
 
-"VUNDLE PLUGINS SECTION
+"PLUG PLUGINS SECTION
 "
 "
 "
-call vundle#rc()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+if empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/bundle')
 
 "Deoplete, autocompletion
-Plugin 'shougo/deoplete.nvim'
+Plug 'shougo/deoplete.nvim'
 
 "Neosnippets
 if !has('nvim')
-  Plugin 'roxma/nvim-yarp'
-  Plugin 'roxma/vim-hug-neovim-rpc'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
-Plugin 'Shougo/neosnippet.vim'
-Plugin 'Shougo/neosnippet-snippets'
+"neosnippets
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 
 " Ctrlp, fuzzy file finder
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
 " gitgutter, shows add, deleted and changed lines in git project
-Plugin 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 
 " Class outline viewer for vim. Easy way to browse tags
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 
 "Ack, search tool for substrings of code
-Plugin 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'
 
 "Nerdcommenter, commenter tool
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 "Delete hidden buffers
-Plugin 'arithran/vim-delete-hidden-buffers'
+Plug 'arithran/vim-delete-hidden-buffers'
 
 "Repeats last action, even from plugins
-Plugin 'tpope/vim-repeat'
+Plug 'tpope/vim-repeat'
 
 "auto-pairs. For example ( inputs ()
-Plugin 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 
 "Nerdtree. Interactive project tree management
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 
 "Vim airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-Plugin 'tpope/vim-surround'
+"Complete brackets (), [], {}, etc
+Plug 'tpope/vim-surround'
 
 "Goes to normal mode with jk or kj
-Plugin 'zhou13/vim-easyescape'
+Plug 'zhou13/vim-easyescape'
 
-"Plugin to see and remove trailing whitespaces
-Plugin 'ntpeters/vim-better-whitespace'
+"Plug to see and remove trailing whitespaces
+Plug 'ntpeters/vim-better-whitespace'
 
 "git wrapper
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 "emmet, html helper tool
-Plugin 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
-Plugin 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 
 "vim blade. Syntax for blade
-Plugin 'jwalton512/vim-blade'
+Plug 'jwalton512/vim-blade'
 
 "Dummy text generator
-Plugin 'vim-scripts/loremipsum'
+Plug 'vim-scripts/loremipsum'
 
 "Latex plugin
-Plugin 'lervag/vimtex'
+Plug 'lervag/vimtex'
 
-call vundle#end()            " required
+"Show indentation plugin
+Plug 'Yggdroot/indentLine'
+
+"Exchange two words
+Plug 'tommcdo/vim-exchange'
+
+"Vim sugar for the UNIX shell commands that need it the most
+Plug 'tpope/vim-eunuch'
+
+"A completion framework and language server client
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" VimWiki is a personal wiki for Vim -- a number of linked text files that have their own syntax highlighting.
+Plug 'vimwiki/vimwiki'
+
+" Syntax highlighting for javascript
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+
+" Laravel wrapper and optional dependencies
+Plug 'tpope/vim-dispatch'             "| Optional
+Plug 'tpope/vim-projectionist'        "|
+Plug 'noahfrederick/vim-composer'     "|
+Plug 'noahfrederick/vim-laravel'
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
+" visual increment vertical numbers
+Plug 'triglav/vim-visual-increment'
+
+" general syntax checker
+Plug 'vim-syntastic/syntastic'
+
+" syntax highlight for python
+"Plug 'hdima/python-syntax'
+
+" python ide functionality
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+" Readline key bindings for vim
+Plug 'tpope/vim-rsi'
+
+" Switch between single-line and multiline forms of code
+" gS for single line to multiline
+" gJ for multiline to single line
+Plug 'AndrewRadev/splitjoin.vim'
+
+" Pairs of handy bracket mappings (https://github.com/tpope/vim-unimpaired)
+Plug 'tpope/vim-unimpaired'
+
+" Asynchronous build and test dispatcher (https://github.com/tpope/vim-dispatch)
+Plug 'tpope/vim-dispatch'
+
+call plug#end()
+"END PLUG PLUGINS SECTION
+
 
 let g:ycm_python_binary_path = '/usr/bin/python3' "for YouCompleteMe
 let g:ycm_python_binary_path = 'python' "for YouCompleteMe
@@ -97,14 +153,6 @@ let g:deoplete#enable_at_startup = 1 " Use deoplete.
 "
 "
 "
-"END VUNDLE PLUGINS SECTION
-
-"Loads plugins
-execute pathogen#infect()
-
-"Let plugins detect type of file and aplpy identation accordingly
-filetype plugin indent on
-
 let mapleader = "," " Sets the leader to be ,
 let maplocalleader = "," " Sets the localleader to be ,
 
@@ -197,6 +245,13 @@ inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
 "Strip whitespace on save
 let g:strip_whitespace_on_save=1
+"Don't ask for confirmation to remove whitespace
+let g:strip_whitespace_confirm=0
+"Highlight space characters that appear before or in-between tabs
+let g:show_spaces_that_precede_tabs=1
+
+"Copy from clipboard
+map <Leader>p :set paste<CR>o<esc>"*]p:set nopaste<cr>
 
 function! s:align()
   let p = '^\s*|\s.*\s|\s*$'
@@ -228,4 +283,23 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
+
+cnoreabbrev artisan Artisan
+
+" syntastic options
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 0
+let g:syntastic_check_on_wq = 0
+"let g:syntastic_python_checkers = ['pyflakes_with_warnings']
+let g:syntastic_python_checkers = ['mypy']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_vue_checkers = ['eslint']
+
+" python mode options
+let g:pymode_options_colorcolumn = 0
 
