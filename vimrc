@@ -143,6 +143,9 @@ Plug 'tpope/vim-unimpaired'
 " Asynchronous build and test dispatcher (https://github.com/tpope/vim-dispatch)
 Plug 'tpope/vim-dispatch'
 
+" Vim plugin for insert mode completion of words in adjacent tmux panes
+Plug 'wellle/tmux-complete.vim'
+
 call plug#end()
 "END PLUG PLUGINS SECTION
 
