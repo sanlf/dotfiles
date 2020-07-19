@@ -99,7 +99,8 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-eunuch'
 
 "A completion framework and language server client
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " VimWiki is a personal wiki for Vim -- a number of linked text files that have their own syntax highlighting.
 Plug 'vimwiki/vimwiki'
 
