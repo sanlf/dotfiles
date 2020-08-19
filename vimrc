@@ -146,6 +146,16 @@ Plug 'tpope/vim-dispatch'
 " Vim plugin for insert mode completion of words in adjacent tmux panes
 Plug 'wellle/tmux-complete.vim'
 
+" Syntax highlighting, matching rules and mappings for the original Markdown and extensions.
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+
+" Semshi provides semantic highlighting for Python in Neovim.
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
+
+" A collection of language packs for Vim.
+Plug 'sheerun/vim-polyglot'
+
 call plug#end()
 "END PLUG PLUGINS SECTION
 
@@ -307,3 +317,5 @@ let g:syntastic_vue_checkers = ['eslint']
 " python mode options
 let g:pymode_options_colorcolumn = 0
 
+" increase deoplete auto_complete_delay for semshi compatibility
+call deoplete#custom#option({ 'auto_complete_delay': 100 })
