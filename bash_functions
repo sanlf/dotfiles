@@ -114,7 +114,7 @@ audioduration()
 # plays all the files in the current directory in random order
 playdir()
 {
-    mpv --no-audio-display --no-video --playlist=<( find $PWD -maxdepth 1 -type f | shuf )
+    mpv --no-audio-display --no-video --playlist=<( find "$PWD" -maxdepth 1 -type f | shuf )
 }
 
 # picks 15 random images from the ~/Pictures/General/ directory and displays them in a list
