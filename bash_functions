@@ -130,3 +130,47 @@ updategrade()
 {
     sudo apt update && sudo apt upgrade
 }
+
+untar()
+{
+    tar -xvf "$1"
+}
+
+untargz()
+{
+    tar -xvzf "$1"
+}
+
+youtube_to_xml()
+{
+    IFS="/"
+    read -ra url <<< $1
+    local channel_id="${url[-1]}"
+    local id_type="${url[-2]}"
+
+    echo "Channel ID: $channel_id"
+
+    if [ $id_type != "channel" ] && [ $id_type != "user" ]
+    then
+        echo "ID type is neither channel nor user!"
+        echo "In order to get the channel ID, follow the next steps:"
+        echo "Ctrl+U"
+        echo "View resource"
+        echo "Search externalID"
+        echo "The string following is the channel id"
+        echo "Concatenate to the end of the following string:"
+        echo "https://www.youtube.com/feeds/videos.xml?channel_id="
+
+        return 1
+    fi
+
+    if [ $id_type = "channel" ]
+    then
+        id_type="channel_id"
+    fi
+
+
+    local xml="https://www.youtube.com/feeds/videos.xml?$id_type=$channel_id"
+
+    echo "$xml"
+}
