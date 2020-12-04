@@ -230,6 +230,8 @@ set nowrap          "Don't wrap lines"
 
 set updatetime=100  "Updates things in 100ms. Specially useful for gitgutter"
 
+set clipboard=unnamedplus "Yank copies to clipboard"
+
 "Removes highlight with leader + space
 nnoremap <leader><space> :nohlsearch<CR>
 
