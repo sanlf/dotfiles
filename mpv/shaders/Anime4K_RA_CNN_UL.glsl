@@ -1,0 +1,1 @@
+/home/sanlf/dotfiles/mpv/Anime4K/glsl/RA-Reduce/Anime4K_RA_CNN_UL.glsl

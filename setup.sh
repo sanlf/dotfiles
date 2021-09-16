@@ -14,7 +14,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="bashrc vimrc mpv"    # list of files/folders to symlink in homedir
+files="bashrc vimrc mpv tmux.conf"    # list of files/folders to symlink in homedir
 package_manager="apt"
 
 ##########
@@ -37,8 +37,11 @@ for file in $files; do
     ln -s $dir/$file ~/.$file
 done
 
+exists_nvim=$(which nvim)
 # installing packages (needs sudo)
-"${package_manager}" install nvim
+if [ -z "${exists_nvim}" ]; then
+	"${package_manager}" install neovim
+fi
 "${package_manager}" install python-is-python3
 
 # verify neovim is installed
@@ -66,16 +69,16 @@ chmod a+rx /usr/local/bin/youtube-dl
 # install go if doesn't exist
 exists_go=$(which go)
 if [ -z "${exists_go}" ]; then
-    "${package_manager}" install go
+    "${package_manager}" install golang
 fi
 
 # install hydroxide
-cd ~/Documents
 git clone https://github.com/emersion/hydroxide.git
 cd hydroxide
 GO111MODULE=on go build ./cmd/hydroxide
 sudo mv hydroxide /usr/local/bin
-cd ~/dotfiles
+cd ..
+rm -rf hydroxide/
 
 echo "[Unit]
 Description=Protonmail bridge for sanlf@protonmail.com
@@ -90,7 +93,10 @@ User=sanlf
 ExecStart=/usr/local/bin/hydroxide -smtp-port 1025 -imap-port 1143 -carddav-port 8015 serve
 
 [Install]
-WantedBy=multi-user.target" >> sanlf-hydroxide.service
+WantedBy=multi-user.target" >> /etc/systemd/system/sanlf-hydroxide.service
 
 echo "Remember to run hydroxide auth <username> and follow what the link says: https://github.com/emersion/hydroxide"
+
+# install undistract-me
+sudo ${package_manager} install undistract-me
 

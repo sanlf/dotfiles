@@ -43,3 +43,6 @@
 [submodule "vim/bundle/Vundle.vim"]
 	path = vim/bundle/Vundle.vim
 	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "mpv/Anime4K"]
+	path = mpv/Anime4K
+	url = https://github.com/bloc97/Anime4K.git

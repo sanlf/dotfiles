@@ -1,0 +1,1 @@
+/home/sanlf/dotfiles/mpv/Anime4K/glsl/Experimental-Effects/Anime4K_DarkLines_Fast.glsl

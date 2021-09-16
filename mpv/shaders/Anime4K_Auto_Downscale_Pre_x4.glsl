@@ -1,0 +1,1 @@
+/home/sanlf/dotfiles/mpv/Anime4K/glsl/Upscale/Anime4K_Auto_Downscale_Pre_x4.glsl

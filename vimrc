@@ -20,7 +20,7 @@ endif
 call plug#begin('~/.vim/bundle')
 
 "Deoplete, autocompletion
-Plug 'shougo/deoplete.nvim'
+"Plug 'shougo/deoplete.nvim'
 
 "Neosnippets
 if !has('nvim')
@@ -78,8 +78,6 @@ Plug 'tpope/vim-fugitive'
 "emmet, html helper tool
 Plug 'mattn/emmet-vim'
 
-Plug 'godlygeek/tabular'
-
 "vim blade. Syntax for blade
 Plug 'jwalton512/vim-blade'
 
@@ -99,7 +97,8 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-eunuch'
 
 "A completion framework and language server client
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+let g:coc_global_extensions = ['coc-tsserver']
 
 " VimWiki is a personal wiki for Vim -- a number of linked text files that have their own syntax highlighting.
 Plug 'vimwiki/vimwiki'
@@ -109,7 +108,7 @@ Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 
 " Laravel wrapper and optional dependencies
-Plug 'tpope/vim-dispatch'             "| Optional
+Plug 'tpope/vim-dispatch'             "| Optional Asynchronous build and test dispatcher (https://github.com/tpope/vim-dispatch)
 Plug 'tpope/vim-projectionist'        "|
 Plug 'noahfrederick/vim-composer'     "|
 Plug 'noahfrederick/vim-laravel'
@@ -122,9 +121,6 @@ Plug 'triglav/vim-visual-increment'
 
 " general syntax checker
 Plug 'vim-syntastic/syntastic'
-
-" syntax highlight for python
-"Plug 'hdima/python-syntax'
 
 " python ide functionality
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
@@ -140,9 +136,6 @@ Plug 'AndrewRadev/splitjoin.vim'
 " Pairs of handy bracket mappings (https://github.com/tpope/vim-unimpaired)
 Plug 'tpope/vim-unimpaired'
 
-" Asynchronous build and test dispatcher (https://github.com/tpope/vim-dispatch)
-Plug 'tpope/vim-dispatch'
-
 " Vim plugin for insert mode completion of words in adjacent tmux panes
 Plug 'wellle/tmux-complete.vim'
 
@@ -154,7 +147,27 @@ Plug 'plasticboy/vim-markdown'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " A collection of language packs for Vim.
+"let g:polyglot_disabled = ['autoindent']
 Plug 'sheerun/vim-polyglot'
+
+" Comments stuff out
+Plug 'tpope/vim-commentary'
+
+" Changes comment syntaxis depending on context in file. For example, a php
+" file with html elements should use // in php and <!-- --> in html
+Plug 'suy/vim-context-commentstring'
+" Javascript syntaxis
+Plug 'pangloss/vim-javascript'
+" Typescript syntaxis
+Plug 'leafgarland/typescript-vim'
+" Jsx typescript syntaxis
+Plug 'peitalin/vim-jsx-typescript'
+" Jsx syntaxis
+Plug 'mxw/vim-jsx'
+" Styled components syntax
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Graphql syntax
+Plug 'jparise/vim-graphql'
 
 call plug#end()
 "END PLUG PLUGINS SECTION
@@ -163,12 +176,14 @@ call plug#end()
 let g:ycm_python_binary_path = '/usr/bin/python3' "for YouCompleteMe
 let g:ycm_python_binary_path = 'python' "for YouCompleteMe
 
-let g:deoplete#enable_at_startup = 1 " Use deoplete.
+"let g:deoplete#enable_at_startup = 1 " Use deoplete.
 "
 "
 "
 let mapleader = "," " Sets the leader to be ,
 let maplocalleader = "," " Sets the localleader to be ,
+
+syntax on           " Turns on syntax highlighting
 
 set number	        " Numbers lines
 
@@ -185,8 +200,6 @@ set shiftwidth=4    " Indents will have a width of 4
 set softtabstop=4   " Sets the number of columns for a TAB
 
 set expandtab       " Expand TABs to spaces
-
-syntax on           " Turns on syntax highlighting
 
 set visualbell      " Blink screen on error instead of beeping
 
@@ -288,7 +301,7 @@ xmap <C-k>     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
+imap <expr><TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
 " \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
@@ -320,4 +333,10 @@ let g:syntastic_vue_checkers = ['eslint']
 let g:pymode_options_colorcolumn = 0
 
 " increase deoplete auto_complete_delay for semshi compatibility
-call deoplete#custom#option({ 'auto_complete_delay': 100 })
+"call deoplete#custom#option({ 'auto_complete_delay': 100 })
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+autocmd BufEnter *.{html,css,js,jsx,ts,tsx} :setlocal tabstop=2 shiftwidth=2 softtabstop=2 " Two spaces for HTML, js, jsx files "
+

@@ -61,7 +61,7 @@ tmuxn()
 misc-tmux()
 {
     tmux send-keys "cd ~" C-m
-    #echo "misc-tmux"
+    tmux send-keys "neofetch" C-m
 }
 
 music-tmux()
@@ -174,3 +174,17 @@ youtube_to_xml()
 
     echo "$xml"
 }
+
+# du directory and sort with human readable file sizes
+# defaults to 2 directories deep
+dush()
+{
+    directory=$1
+    max_depth=$2
+
+    if [ -z "$max_depth" ]; then
+        max_depth=2
+    fi
+    du -h --max-depth=$max_depth $directory | sort -h
+}
+

@@ -11,8 +11,12 @@ alias youtube-dl='/usr/local/bin/youtube-dl'
 #mpv aliases #################################################################
 # no subs
 alias mpv-ns='mpv --no-sub-visibility'
+# load file with <anime4k-1080p perceptual quality and deblur> shader
+alias mpv4k='mpv --profile="anime4k-1080-perceptual-quality-deblur"'
 # load playlist
 alias mplaylist='mpv --idle=once --script-opts=playlistmanager-loadfiles_on_start=yes --save-position-on-quit'
+# load playlist
+alias mplaylist4k='mpv4k --idle=once --script-opts=playlistmanager-loadfiles_on_start=yes --save-position-on-quit'
 # no video and no audio cover
 alias mpv3='mpv --no-audio-display --no-video'
 
@@ -20,7 +24,7 @@ alias mpv3='mpv --no-audio-display --no-video'
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+    alias ls='ls --color=auto -v'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
@@ -45,4 +49,14 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 #tmux aliases ################################################################
 # tmux alias new work session
 alias tmuxw='tmuxn work'
+
+#other aliases ###############################################################
+# move file to trash
+alias mvt='gio trash'
+
+#qol aliases #################################################################
+alias mkdir="mkdir -p "
+alias cp="cp -iv "
+alias mv="mv -iv "
+sensors="watch sensors"
 
