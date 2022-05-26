@@ -12,7 +12,8 @@ alias youtube-dl='/usr/local/bin/youtube-dl'
 # no subs
 alias mpv-ns='mpv --no-sub-visibility'
 # load file with <anime4k-1080p perceptual quality and deblur> shader
-alias mpv4k='mpv --profile="anime4k-1080-perceptual-quality-deblur"'
+# also saves position of video
+alias mpv4k='mpv --profile="anime4k-1080-perceptual-quality-deblur" --save-position-on-quit'
 # load playlist
 alias mplaylist='mpv --idle=once --script-opts=playlistmanager-loadfiles_on_start=yes --save-position-on-quit'
 # load playlist
@@ -60,3 +61,6 @@ alias cp="cp -iv "
 alias mv="mv -iv "
 sensors="watch sensors"
 
+#telegram notifications ######################################################
+# package from https://github.com/rahiel/telegram-send
+alias tg='telegram-send "$([ $? = 0 ] && echo "" || echo "error: ") $(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*tg$//'\'')"'

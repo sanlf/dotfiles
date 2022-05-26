@@ -117,6 +117,12 @@ playdir()
     mpv --no-audio-display --no-video --playlist=<( find "$PWD" -maxdepth 1 -type f | shuf )
 }
 
+playdir2()
+{
+    local MAX=5 # limit maxdepth in case some directories have much more subdirectories than expected
+    mpv --no-audio-display --no-video --playlist=<( find "$PWD" -maxdepth "$MAX" -type f | shuf )
+}
+
 # picks 15 random images from the ~/Pictures/General/ directory and displays them in a list
 randimg()
 {

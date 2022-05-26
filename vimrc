@@ -147,6 +147,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
 
 " A collection of language packs for Vim.
+" Uncomment following line if indentation fails for some reason
 "let g:polyglot_disabled = ['autoindent']
 Plug 'sheerun/vim-polyglot'
 
@@ -158,12 +159,14 @@ Plug 'tpope/vim-commentary'
 Plug 'suy/vim-context-commentstring'
 " Javascript syntaxis
 Plug 'pangloss/vim-javascript'
+" A simple vim indent plugin for javascript, support OOP, jquery
+"Plug 'jiangmiao/simple-javascript-indenter'
+" Vim indenter for standalon and embedded JavaScript and TypeScript
+"Plug 'jason0x43/vim-js-indent'
 " Typescript syntaxis
 Plug 'leafgarland/typescript-vim'
 " Jsx typescript syntaxis
 Plug 'peitalin/vim-jsx-typescript'
-" Jsx syntaxis
-Plug 'mxw/vim-jsx'
 " Styled components syntax
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 " Graphql syntax
@@ -227,9 +230,11 @@ set showmode        " Shows the current mode
 
 set autoindent      " Indents next line according to previous indentation
 
-set smartindent     " Complements autoindent
-
-set copyindent      " Copies the exact indent characters (same number of spaces or tabs)
+"set smartindent     " Complements autoindent
+set nocopyindent
+set nopreserveindent
+set nosmartindent
+"set copyindent      " Copies the exact indent characters (same number of spaces or tabs)
 
 set lazyredraw      "Redraws lazily (doesn't redraw in macros for example)
 
@@ -340,3 +345,4 @@ autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 
 autocmd BufEnter *.{html,css,js,jsx,ts,tsx} :setlocal tabstop=2 shiftwidth=2 softtabstop=2 " Two spaces for HTML, js, jsx files "
 
+"filetype plugin indent on;
