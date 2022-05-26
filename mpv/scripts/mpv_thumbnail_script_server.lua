@@ -15,9 +15,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 --[[
-    mpv_thumbnail_script.lua 0.4.2 - commit a2de250 (branch master)
+    mpv_thumbnail_script.lua 0.4.2 - commit 682becf (branch master)
     https://github.com/TheAMM/mpv_thumbnail_script
-    Built on 2018-02-07 20:36:54
+    Built on 2022-05-16 18:47:38
 ]]--
 local assdraw = require 'mp.assdraw'
 local msg = require 'mp.msg'
@@ -609,6 +609,7 @@ function do_worker_job(state_json_string, frames_json_string)
     end
 
     local file_duration = mp.get_property_native("duration")
+    if file_duration == nil then file_duration = 0 end
     local file_path = thumb_state.worker_input_path
 
     if thumb_state.is_remote then

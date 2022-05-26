@@ -15,9 +15,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 --[[
-    mpv_thumbnail_script.lua 0.4.2 - commit a2de250 (branch master)
+    mpv_thumbnail_script.lua 0.4.2 - commit 682becf (branch master)
     https://github.com/TheAMM/mpv_thumbnail_script
-    Built on 2018-02-07 20:36:55
+    Built on 2022-05-16 18:47:38
 ]]--
 local assdraw = require 'mp.assdraw'
 local msg = require 'mp.msg'
@@ -854,7 +854,13 @@ function Thumbnailer:on_thumb_ready(index)
 end
 
 function Thumbnailer:on_thumb_progress(index)
-    self.state.thumbnails[index] = math.max(self.state.thumbnails[index], 0)
+    -- Original line before changing the function content
+    -- self.state.thumbnails[index] = math.max(self.state.thumbnails[index], 0)
+    if (self.state.thumbnails[index] ~= nil) then
+        self.state.thumbnails[index] = math.max(self.state.thumbnails[index], 0)
+    else
+        self.state.thumbnails[index] = 0
+    end
 end
 
 function Thumbnailer:on_start_file()
@@ -960,6 +966,7 @@ end
 function Thumbnailer:get_delta()
     local file_path = mp.get_property_native("path")
     local file_duration = mp.get_property_native("duration")
+    if file_duration == nil then file_duration = 0 end
     local is_seekable = mp.get_property_native("seekable")
 
     -- Naive url check
@@ -997,6 +1004,7 @@ function Thumbnailer:get_thumbnail_count(delta)
         return 0
     end
     local file_duration = mp.get_property_native("duration")
+    if file_duration == nil then file_duration = 0 end
 
     return math.ceil(file_duration / delta)
 end
@@ -1073,13 +1081,11 @@ function Thumbnailer:register_client()
     -- This will be executed after the on_video_change (because it's registered after it)
     mp.observe_property("video-dec-params", "native", function()
         local duration = mp.get_property_native("duration")
+        if duration == nil then duration = 0 end
         local max_duration = thumbnailer_options.autogenerate_max_duration
+        if max_duration == nil then max_duration = 0 end
 
-        if duration == nil then
-            return
-        end
-
-        if self.state.available and thumbnailer_options.autogenerate then
+        if duration ~= nil and self.state.available and thumbnailer_options.autogenerate then
             -- Notify if autogenerate is on and video is not too long
             if duration < max_duration or max_duration == 0 then
                 self:start_worker_jobs()
